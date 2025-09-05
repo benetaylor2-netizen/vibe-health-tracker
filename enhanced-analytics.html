@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Health Tracker - Enhanced Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dashboard-header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .stat-change {
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .stat-change.positive {
+            color: #4CAF50;
+        }
+
+        .stat-change.negative {
+            color: #f44336;
+        }
+
+        .data-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-section h2 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .data-section h2 i {
+            margin-right: 10px;
+            color: #667eea;
+        }
+
+        .user-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .user-card {
+            background: #f8f9ff;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .user-card:hover {
+            border-color: #667eea;
+            background: #e8ecff;
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .user-email {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-platform {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .user-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .user-stat {
+            text-align: center;
+        }
+
+        .user-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .user-stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart {
+            width: 100%;
+            height: 300px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .chart-bar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 5px 5px 0 0;
+            min-width: 40px;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .export-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .export-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px;
+        }
+
+        .export-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .export-button i {
+            font-size: 1.2rem;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+
+        .refresh-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .refresh-button:hover {
+            background: #45a049;
+        }
+
+        .insights {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .insight-item {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .insight-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .insight-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 15px;
+            }
+            
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1><i class="fas fa-chart-line"></i> Vibe Health Tracker Analytics</h1>
+            <p>Comprehensive user engagement and wellness progress monitoring</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('overview')">
+                <i class="fas fa-chart-pie"></i> Overview
+            </button>
+            <button class="tab-button" onclick="switchTab('individual')">
+                <i class="fas fa-user-friends"></i> Individual Users
+            </button>
+            <button class="tab-button" onclick="switchTab('trends')">
+                <i class="fas fa-chart-line"></i> Trends & Insights
+            </button>
+            <button class="tab-button" onclick="switchTab('export')">
+                <i class="fas fa-download"></i> Export Data
+            </button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div class="tab-content active" id="overview">
+            <!-- Group Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number" id="total-users">0</div>
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-change" id="users-change">+0 this week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
+                    <div class="stat-number" id="total-days">0</div>
+                    <div class="stat-label">Total Days Tracked</div>
+                    <div class="stat-change" id="days-change">+0 this week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-pills"></i></div>
+                    <div class="stat-number" id="vibe-days">0</div>
+                    <div class="stat-label">Vibe Days</div>
+                    <div class="stat-change" id="vibe-change">0% completion rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-tint"></i></div>
+                    <div class="stat-number" id="water-days">0</div>
+                    <div class="stat-label">Water Days</div>
+                    <div class="stat-change" id="water-change">0% completion rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-running"></i></div>
+                    <div class="stat-number" id="exercise-days">0</div>
+                    <div class="stat-label">Exercise Days</div>
+                    <div class="stat-change" id="exercise-change">0% completion rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-moon"></i></div>
+                    <div class="stat-number" id="sleep-days">0</div>
+                    <div class="stat-label">Sleep Days</div>
+                    <div class="stat-change" id="sleep-change">0% completion rate</div>
+                </div>
+            </div>
+
+            <!-- Activity Chart -->
+            <div class="chart-container">
+                <h2><i class="fas fa-chart-bar"></i> Weekly Activity Breakdown</h2>
+                <div class="chart" id="activity-chart">
+                    <div class="no-data">No data available yet</div>
+                </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="insights">
+                <h2><i class="fas fa-lightbulb"></i> Key Insights</h2>
+                <div id="insights-container">
+                    <div class="insight-item">
+                        <div class="insight-title">Getting Started</div>
+                        <div class="insight-text">Users are just beginning their wellness journey. Encourage daily check-ins to build momentum.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Individual Users Tab -->
+        <div class="tab-content" id="individual">
+            <div class="data-section">
+                <h2><i class="fas fa-user-friends"></i> Individual User Progress <button class="refresh-button" onclick="refreshData()"><i class="fas fa-sync-alt"></i> Refresh</button></h2>
+                <div class="user-list" id="user-list">
+                    <div class="no-data">No user data available yet. Users need to start tracking their wellness journey.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trends Tab -->
+        <div class="tab-content" id="trends">
+            <div class="chart-container">
+                <h2><i class="fas fa-chart-line"></i> User Engagement Trends</h2>
+                <div class="chart" id="trends-chart">
+                    <div class="no-data">Trend data will appear as users engage with the app</div>
+                </div>
+            </div>
+            
+            <div class="insights">
+                <h2><i class="fas fa-analytics"></i> Engagement Analysis</h2>
+                <div id="trends-insights">
+                    <div class="insight-item">
+                        <div class="insight-title">Early Stage</div>
+                        <div class="insight-text">The app is in its early stages. Focus on user onboarding and daily engagement.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Tab -->
+        <div class="tab-content" id="export">
+            <div class="export-section">
+                <h2><i class="fas fa-download"></i> Export & Reports</h2>
+                <p>Download comprehensive data reports for analysis and sharing</p>
+                <button class="export-button" onclick="exportData('csv')">
+                    <i class="fas fa-file-excel"></i>
+                    Export to CSV
+                </button>
+                <button class="export-button" onclick="exportData('json')">
+                    <i class="fas fa-file-code"></i>
+                    Export to JSON
+                </button>
+                <button class="export-button" onclick="generateReport()">
+                    <i class="fas fa-file-pdf"></i>
+                    Generate Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class EnhancedAnalyticsDashboard {
+            constructor() {
+                this.data = this.loadData();
+                this.init();
+            }
+
+            init() {
+                this.updateStats();
+                this.displayUsers();
+                this.updateCharts();
+                this.generateInsights();
+            }
+
+            loadData() {
+                const users = {};
+                
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('vibe-tracker-data-')) {
+                        const userEmail = key.replace('vibe-tracker-data-', '');
+                        const userData = JSON.parse(localStorage.getItem(key));
+                        users[userEmail] = userData;
+                    }
+                }
+                
+                return users;
+            }
+
+            updateStats() {
+                const users = this.data;
+                let totalUsers = Object.keys(users).length;
+                let totalDays = 0;
+                let vibeDays = 0;
+                let waterDays = 0;
+                let exerciseDays = 0;
+                let sleepDays = 0;
+
+                Object.values(users).forEach(userData => {
+                    if (userData.daily) {
+                        const days = Object.keys(userData.daily);
+                        totalDays += days.length;
+                        
+                        days.forEach(day => {
+                            const dayData = userData.daily[day];
+                            if (dayData.vibe) vibeDays++;
+                            if (dayData.water) waterDays++;
+                            if (dayData.exercise) exerciseDays++;
+                            if (dayData.sleep) sleepDays++;
+                        });
+                    }
+                });
+
+                document.getElementById('total-users').textContent = totalUsers;
+                document.getElementById('total-days').textContent = totalDays;
+                document.getElementById('vibe-days').textContent = vibeDays;
+                document.getElementById('water-days').textContent = waterDays;
+                document.getElementById('exercise-days').textContent = exerciseDays;
+                document.getElementById('sleep-days').textContent = sleepDays;
+
+                // Update completion rates
+                const vibeRate = totalDays > 0 ? Math.round((vibeDays / totalDays) * 100) : 0;
+                const waterRate = totalDays > 0 ? Math.round((waterDays / totalDays) * 100) : 0;
+                const exerciseRate = totalDays > 0 ? Math.round((exerciseDays / totalDays) * 100) : 0;
+                const sleepRate = totalDays > 0 ? Math.round((sleepDays / totalDays) * 100) : 0;
+
+                document.getElementById('vibe-change').textContent = `${vibeRate}% completion rate`;
+                document.getElementById('water-change').textContent = `${waterRate}% completion rate`;
+                document.getElementById('exercise-change').textContent = `${exerciseRate}% completion rate`;
+                document.getElementById('sleep-change').textContent = `${sleepRate}% completion rate`;
+            }
+
+            displayUsers() {
+                const userList = document.getElementById('user-list');
+                const users = this.data;
+
+                if (Object.keys(users).length === 0) {
+                    userList.innerHTML = '<div class="no-data">No user data available yet. Users need to start tracking their wellness journey.</div>';
+                    return;
+                }
+
+                userList.innerHTML = '';
+
+                Object.entries(users).forEach(([email, userData]) => {
+                    const userCard = this.createUserCard(email, userData);
+                    userList.appendChild(userCard);
+                });
+            }
+
+            createUserCard(email, userData) {
+                const card = document.createElement('div');
+                card.className = 'user-card';
+
+                const days = userData.daily ? Object.keys(userData.daily) : [];
+                const totalDays = days.length;
+                
+                let vibeDays = 0;
+                let waterDays = 0;
+                let exerciseDays = 0;
+                let sleepDays = 0;
+                let perfectDays = 0;
+
+                days.forEach(day => {
+                    const dayData = userData.daily[day];
+                    if (dayData.vibe) vibeDays++;
+                    if (dayData.water) waterDays++;
+                    if (dayData.exercise) exerciseDays++;
+                    if (dayData.sleep) sleepDays++;
+                    if (dayData.vibe && dayData.water && dayData.exercise && dayData.sleep) {
+                        perfectDays++;
+                    }
+                });
+
+                const vibePercentage = totalDays > 0 ? Math.round((vibeDays / totalDays) * 100) : 0;
+                const waterPercentage = totalDays > 0 ? Math.round((waterDays / totalDays) * 100) : 0;
+                const exercisePercentage = totalDays > 0 ? Math.round((exerciseDays / totalDays) * 100) : 0;
+                const sleepPercentage = totalDays > 0 ? Math.round((sleepDays / totalDays) * 100) : 0;
+
+                card.innerHTML = `
+                    <div class="user-header">
+                        <div class="user-email">${email}</div>
+                        <div class="user-platform">Web</div>
+                    </div>
+                    <div class="user-stats">
+                        <div class="user-stat">
+                            <div class="user-stat-number">${totalDays}</div>
+                            <div class="user-stat-label">Days Tracked</div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="user-stat-number">${vibeDays}</div>
+                            <div class="user-stat-label">Vibe Days</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${vibePercentage}%"></div>
+                            </div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="user-stat-number">${waterDays}</div>
+                            <div class="user-stat-label">Water Days</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${waterPercentage}%"></div>
+                            </div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="user-stat-number">${exerciseDays}</div>
+                            <div class="user-stat-label">Exercise Days</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${exercisePercentage}%"></div>
+                            </div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="user-stat-number">${sleepDays}</div>
+                            <div class="user-stat-label">Sleep Days</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${sleepPercentage}%"></div>
+                            </div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="user-stat-number">${perfectDays}</div>
+                            <div class="user-stat-label">Perfect Days</div>
+                        </div>
+                    </div>
+                `;
+
+                return card;
+            }
+
+            updateCharts() {
+                this.updateActivityChart();
+                this.updateTrendsChart();
+            }
+
+            updateActivityChart() {
+                const chart = document.getElementById('activity-chart');
+                const users = this.data;
+                
+                if (Object.keys(users).length === 0) {
+                    chart.innerHTML = '<div class="no-data">No data available yet</div>';
+                    return;
+                }
+
+                // Calculate weekly activity
+                const weeklyData = {
+                    'Vibe': 0,
+                    'Water': 0,
+                    'Exercise': 0,
+                    'Sleep': 0
+                };
+
+                Object.values(users).forEach(userData => {
+                    if (userData.daily) {
+                        Object.values(userData.daily).forEach(dayData => {
+                            if (dayData.vibe) weeklyData['Vibe']++;
+                            if (dayData.water) weeklyData['Water']++;
+                            if (dayData.exercise) weeklyData['Exercise']++;
+                            if (dayData.sleep) weeklyData['Sleep']++;
+                        });
+                    }
+                });
+
+                const maxValue = Math.max(...Object.values(weeklyData));
+                const maxHeight = 200;
+
+                chart.innerHTML = '';
+                Object.entries(weeklyData).forEach(([category, value]) => {
+                    const height = maxValue > 0 ? (value / maxValue) * maxHeight : 0;
+                    const bar = document.createElement('div');
+                    bar.className = 'chart-bar';
+                    bar.style.height = `${height}px`;
+                    bar.innerHTML = `
+                        <span style="position: absolute; top: -25px;">${value}</span>
+                        <div class="chart-label">${category}</div>
+                    `;
+                    chart.appendChild(bar);
+                });
+            }
+
+            updateTrendsChart() {
+                const chart = document.getElementById('trends-chart');
+                chart.innerHTML = '<div class="no-data">Trend data will appear as users engage with the app</div>';
+            }
+
+            generateInsights() {
+                const insightsContainer = document.getElementById('insights-container');
+                const users = this.data;
+                const totalUsers = Object.keys(users).length;
+                
+                let insights = [];
+
+                if (totalUsers === 0) {
+                    insights.push({
+                        title: "Getting Started",
+                        text: "No users have started tracking yet. Focus on promoting the app to your Vibe customers."
+                    });
+                } else if (totalUsers < 5) {
+                    insights.push({
+                        title: "Early Adoption",
+                        text: `${totalUsers} users have started their wellness journey. Encourage them to invite friends and family.`
+                    });
+                } else {
+                    insights.push({
+                        title: "Growing Community",
+                        text: `${totalUsers} users are actively tracking their wellness. Consider adding community features.`
+                    });
+                }
+
+                // Calculate average engagement
+                let totalDays = 0;
+                Object.values(users).forEach(userData => {
+                    if (userData.daily) {
+                        totalDays += Object.keys(userData.daily).length;
+                    }
+                });
+
+                if (totalUsers > 0) {
+                    const avgDays = Math.round(totalDays / totalUsers);
+                    insights.push({
+                        title: "Engagement Level",
+                        text: `Users average ${avgDays} days of tracking. ${avgDays > 7 ? 'Great engagement!' : 'Consider adding reminder features.'}`
+                    });
+                }
+
+                insightsContainer.innerHTML = '';
+                insights.forEach(insight => {
+                    const insightItem = document.createElement('div');
+                    insightItem.className = 'insight-item';
+                    insightItem.innerHTML = `
+                        <div class="insight-title">${insight.title}</div>
+                        <div class="insight-text">${insight.text}</div>
+                    `;
+                    insightsContainer.appendChild(insightItem);
+                });
+            }
+
+            exportData(format) {
+                const users = this.data;
+                let content = '';
+                let filename = '';
+
+                if (format === 'csv') {
+                    content = "Email,Total Days,Vibe Days,Water Days,Exercise Days,Sleep Days,Perfect Days,Vibe %,Water %,Exercise %,Sleep %\n";
+                    
+                    Object.entries(users).forEach(([email, userData]) => {
+                        const days = userData.daily ? Object.keys(userData.daily) : [];
+                        const totalDays = days.length;
+                        
+                        let vibeDays = 0;
+                        let waterDays = 0;
+                        let exerciseDays = 0;
+                        let sleepDays = 0;
+                        let perfectDays = 0;
+
+                        days.forEach(day => {
+                            const dayData = userData.daily[day];
+                            if (dayData.vibe) vibeDays++;
+                            if (dayData.water) waterDays++;
+                            if (dayData.exercise) exerciseDays++;
+                            if (dayData.sleep) sleepDays++;
+                            if (dayData.vibe && dayData.water && dayData.exercise && dayData.sleep) {
+                                perfectDays++;
+                            }
+                        });
+
+                        const vibePercentage = totalDays > 0 ? Math.round((vibeDays / totalDays) * 100) : 0;
+                        const waterPercentage = totalDays > 0 ? Math.round((waterDays / totalDays) * 100) : 0;
+                        const exercisePercentage = totalDays > 0 ? Math.round((exerciseDays / totalDays) * 100) : 0;
+                        const sleepPercentage = totalDays > 0 ? Math.round((sleepDays / totalDays) * 100) : 0;
+
+                        content += `${email},${totalDays},${vibeDays},${waterDays},${exerciseDays},${sleepDays},${perfectDays},${vibePercentage}%,${waterPercentage}%,${exercisePercentage}%,${sleepPercentage}%\n`;
+                    });
+                    
+                    filename = `vibe-tracker-analytics-${new Date().toISOString().split('T')[0]}.csv`;
+                } else if (format === 'json') {
+                    content = JSON.stringify(users, null, 2);
+                    filename = `vibe-tracker-data-${new Date().toISOString().split('T')[0]}.json`;
+                }
+
+                const blob = new Blob([content], { type: format === 'csv' ? 'text/csv' : 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                alert(`Data exported successfully as ${format.toUpperCase()}!`);
+            }
+
+            generateReport() {
+                const users = this.data;
+                const totalUsers = Object.keys(users).length;
+                
+                let reportContent = `
+VIBE HEALTH TRACKER - ANALYTICS REPORT
+Generated: ${new Date().toLocaleDateString()}
+
+SUMMARY:
+- Total Users: ${totalUsers}
+- Total Days Tracked: ${document.getElementById('total-days').textContent}
+- Vibe Days: ${document.getElementById('vibe-days').textContent}
+- Water Days: ${document.getElementById('water-days').textContent}
+- Exercise Days: ${document.getElementById('exercise-days').textContent}
+- Sleep Days: ${document.getElementById('sleep-days').textContent}
+
+USER BREAKDOWN:
+`;
+
+                Object.entries(users).forEach(([email, userData]) => {
+                    const days = userData.daily ? Object.keys(userData.daily) : [];
+                    const totalDays = days.length;
+                    
+                    let vibeDays = 0;
+                    let waterDays = 0;
+                    let exerciseDays = 0;
+                    let sleepDays = 0;
+                    let perfectDays = 0;
+
+                    days.forEach(day => {
+                        const dayData = userData.daily[day];
+                        if (dayData.vibe) vibeDays++;
+                        if (dayData.water) waterDays++;
+                        if (dayData.exercise) exerciseDays++;
+                        if (dayData.sleep) sleepDays++;
+                        if (dayData.vibe && dayData.water && dayData.exercise && dayData.sleep) {
+                            perfectDays++;
+                        }
+                    });
+
+                    reportContent += `
+${email}:
+  - Days Tracked: ${totalDays}
+  - Vibe Days: ${vibeDays}
+  - Water Days: ${waterDays}
+  - Exercise Days: ${exerciseDays}
+  - Sleep Days: ${sleepDays}
+  - Perfect Days: ${perfectDays}
+`;
+                });
+
+                const blob = new Blob([reportContent], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `vibe-tracker-report-${new Date().toISOString().split('T')[0]}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                alert('Report generated successfully!');
+            }
+        }
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function refreshData() {
+            location.reload();
+        }
+
+        function exportData(format) {
+            dashboard.exportData(format);
+        }
+
+        function generateReport() {
+            dashboard.generateReport();
+        }
+
+        // Initialize dashboard
+        let dashboard;
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboard = new EnhancedAnalyticsDashboard();
+        });
+    </script>
+</body>
+</html>
