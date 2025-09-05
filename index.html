@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Health Tracker</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Track your wellness journey with daily progress monitoring and miracle mindset quotes">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Vibe Tracker">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- App Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <style>
+        /* Embedded CSS for standalone functionality */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .install-banner {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            display: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .install-banner.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .install-banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .install-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .install-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .install-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .install-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .close-install {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            margin-top: 0;
+        }
+
+        .app-nav.with-banner {
+            margin-top: 60px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .nav-brand i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 15px;
+            border: none;
+            background: none;
+            color: #666;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-link i {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .app-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: calc(100vh - 70px);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .home-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .home-header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .home-header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .daily-checkin {
+            margin-bottom: 40px;
+        }
+
+        .daily-checkin h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .daily-checkin h2 i {
+            margin-right: 10px;
+            color: #667eea;
+        }
+
+        .checkin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .checkin-item label {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .checkin-item label:hover {
+            background: #e8ecff;
+            border-color: #667eea;
+        }
+
+        .checkin-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkmark {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            margin-right: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .checkin-item input[type="checkbox"]:checked + .checkmark {
+            background: #667eea;
+            border-color: #667eea;
+        }
+
+        .checkin-item input[type="checkbox"]:checked + .checkmark::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .checkin-item label i {
+            margin-right: 10px;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .progress-section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .progress-section h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-section h2 i {
+            margin-right: 10px;
+            color: #667eea;
+        }
+
+        .progress-ring-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .progress-ring {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .progress-ring-svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle-bg {
+            fill: none;
+            stroke: #e0e0e0;
+            stroke-width: 8;
+        }
+
+        .progress-ring-circle {
+            fill: none;
+            stroke: #667eea;
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 502.4;
+            stroke-dashoffset: 502.4;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-percentage {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .mindset-section h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .mindset-section h2 i {
+            margin-right: 10px;
+            color: #667eea;
+        }
+
+        .mindset-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .mindset-quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .mindset-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .mindset-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        #login-modal .modal-content {
+            max-width: 400px;
+            text-align: center;
+        }
+
+        #login-modal .modal-body p {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        #login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #user-email {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        #user-email:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-button i {
+            font-size: 1.2rem;
+        }
+
+        .login-note {
+            font-size: 0.9rem;
+            color: #999;
+            margin-top: 15px;
+            line-height: 1.4;
+        }
+
+        /* Success Stories Styles */
+        .success-stories {
+            margin-bottom: 40px;
+        }
+
+        .success-stories h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .success-stories h2 i {
+            margin-right: 10px;
+            color: #667eea;
+        }
+
+        .story-card {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .story-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .story-author {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        /* Achievement Badges */
+        .achievements {
+            margin-bottom: 40px;
+        }
+
+        .achievements h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .achievements h2 i {
+            margin-right: 10px;
+            color: #667eea;
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .badge {
+            background: #f8f9ff;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .badge.unlocked {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-color: #FFD700;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .badge i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .badge-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .badge-description {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Date Selection */
+        .date-selector {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .date-selector label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .date-input {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .date-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Progress Sharing */
+        .share-progress {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .share-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .share-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Notification Permission */
+        .notification-banner {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            display: none;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .notification-banner.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .notification-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .notification-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .notification-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .close-notification {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .install-banner-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .install-text {
+                font-size: 0.9rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-link {
+                padding: 8px 12px;
+                font-size: 0.7rem;
+            }
+            
+            .nav-link i {
+                font-size: 1rem;
+            }
+            
+            .home-header h1 {
+                font-size: 2rem;
+            }
+            
+            .checkin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Install Banner -->
+    <div class="install-banner" id="install-banner">
+        <div class="install-banner-content">
+            <div class="install-text">
+                <i class="fas fa-download"></i>
+                <span>Install Vibe Tracker for easy access!</span>
+            </div>
+            <div class="install-buttons">
+                <button class="install-btn" id="install-btn">Install</button>
+                <button class="close-install" onclick="closeInstallBanner()">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="app-nav" id="app-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-heart"></i>
+                <span>Vibe Tracker</span>
+            </div>
+            <div class="nav-links">
+                <button class="nav-link active" data-tab="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </button>
+                <button class="nav-link" data-tab="progress">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Progress</span>
+                </button>
+                <button class="nav-link" data-tab="resources">
+                    <i class="fas fa-book"></i>
+                    <span>Resources</span>
+                </button>
+                <button class="nav-link" data-tab="rewards">
+                    <i class="fas fa-trophy"></i>
+                    <span>Rewards</span>
+                </button>
+                <button class="nav-link" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="app-main">
+        <!-- Home Tab -->
+        <div class="tab-content active" id="home">
+            <div class="home-container">
+                <header class="home-header">
+                    <h1>Welcome to Your Wellness Journey</h1>
+                    <p>Track your daily progress and build your miracle mindset</p>
+                </header>
+
+                <!-- Date Selector -->
+                <section class="date-selector">
+                    <label for="date-picker">Select Date:</label>
+                    <input type="date" id="date-picker" class="date-input" onchange="changeDate()">
+                </section>
+
+                <!-- Daily Check-in -->
+                <section class="daily-checkin">
+                    <h2><i class="fas fa-calendar-day"></i> <span id="date-title">Today's</span> Check-in</h2>
+                    <div class="checkin-grid">
+                        <div class="checkin-item">
+                            <label>
+                                <input type="checkbox" id="vibe-taken" data-track="vibe">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-pills"></i>
+                                <span>Vibe Taken</span>
+                            </label>
+                        </div>
+                        <div class="checkin-item">
+                            <label>
+                                <input type="checkbox" id="water-8glasses" data-track="water">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-tint"></i>
+                                <span>8 Glasses Water</span>
+                            </label>
+                        </div>
+                        <div class="checkin-item">
+                            <label>
+                                <input type="checkbox" id="exercise" data-track="exercise">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-running"></i>
+                                <span>Exercise</span>
+                            </label>
+                        </div>
+                        <div class="checkin-item">
+                            <label>
+                                <input type="checkbox" id="sleep-8hours" data-track="sleep">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-moon"></i>
+                                <span>8 Hours Sleep</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Progress Ring -->
+                <section class="progress-section">
+                    <h2><i class="fas fa-chart-pie"></i> Today's Progress</h2>
+                    <div class="progress-ring-container">
+                        <div class="progress-ring">
+                            <svg class="progress-ring-svg" width="200" height="200">
+                                <circle class="progress-ring-circle-bg" cx="100" cy="100" r="80"></circle>
+                                <circle class="progress-ring-circle" cx="100" cy="100" r="80" id="progress-circle"></circle>
+                            </svg>
+                            <div class="progress-text">
+                                <span class="progress-percentage" id="progress-percentage">0%</span>
+                                <span class="progress-label">Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Miracle Mindset -->
+                <section class="mindset-section">
+                    <h2><i class="fas fa-lightbulb"></i> Today's Miracle Mindset</h2>
+                    <div class="mindset-card">
+                        <p class="mindset-quote" id="mindset-quote">
+                            "Every small step towards wellness is a miracle in progress."
+                        </p>
+                        <button class="mindset-button" onclick="getNewMindset()">
+                            <i class="fas fa-refresh"></i>
+                            New Inspiration
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Success Stories -->
+                <section class="success-stories">
+                    <h2><i class="fas fa-star"></i> Success Stories</h2>
+                    <div id="success-stories-container">
+                        <div class="story-card">
+                            <div class="story-text">"I've been using Vibe for 30 days and feel more energized than ever!"</div>
+                            <div class="story-author">- Sarah M.</div>
+                        </div>
+                        <div class="story-card">
+                            <div class="story-text">"The daily tracking helped me build healthy habits that actually stick."</div>
+                            <div class="story-author">- Mike R.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Achievement Badges -->
+                <section class="achievements">
+                    <h2><i class="fas fa-trophy"></i> Your Achievements</h2>
+                    <div class="badge-grid" id="badge-grid">
+                        <div class="badge" id="badge-first-day">
+                            <i class="fas fa-play"></i>
+                            <div class="badge-title">First Day</div>
+                            <div class="badge-description">Complete your first day</div>
+                        </div>
+                        <div class="badge" id="badge-week-streak">
+                            <i class="fas fa-calendar-week"></i>
+                            <div class="badge-title">Week Warrior</div>
+                            <div class="badge-description">7 days in a row</div>
+                        </div>
+                        <div class="badge" id="badge-perfect-day">
+                            <i class="fas fa-star"></i>
+                            <div class="badge-title">Perfect Day</div>
+                            <div class="badge-description">Complete all 4 items</div>
+                        </div>
+                        <div class="badge" id="badge-vibe-master">
+                            <i class="fas fa-pills"></i>
+                            <div class="badge-title">Vibe Master</div>
+                            <div class="badge-description">30 days of Vibe</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Progress Sharing -->
+                <section class="share-progress">
+                    <button class="share-button" onclick="shareProgress()">
+                        <i class="fas fa-share-alt"></i>
+                        Share My Progress
+                    </button>
+                </section>
+            </div>
+        </div>
+
+        <!-- Other tabs would go here -->
+        <div class="tab-content" id="progress">
+            <div class="home-container">
+                <h1>Progress Tracking</h1>
+                <p>Your progress data will be displayed here.</p>
+            </div>
+        </div>
+
+        <div class="tab-content" id="resources">
+            <div class="home-container">
+                <h1>Wellness Resources</h1>
+                <p>Access wellness guides, recipes, and mindset tips here.</p>
+            </div>
+        </div>
+
+        <div class="tab-content" id="rewards">
+            <div class="home-container">
+                <h1>Your Rewards</h1>
+                <p>Track your achievements and points here.</p>
+                <button class="mindset-button" onclick="shareApp()">
+                    <i class="fas fa-share"></i>
+                    Share App
+                </button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="settings">
+            <div class="home-container">
+                <h1>Settings</h1>
+                <p>Manage your preferences and data here.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Welcome to Vibe Health Tracker</h3>
+                <!-- Removed close button to prevent bypassing -->
+            </div>
+            <div class="modal-body">
+                <p>Enter your email to start tracking your wellness journey:</p>
+                <form id="login-form" onsubmit="handleLogin(event)">
+                    <input type="email" id="user-email" placeholder="your@email.com" required>
+                    <button type="submit" class="login-button">
+                        <i class="fas fa-heart"></i> Start Tracking
+                    </button>
+                </form>
+                <p class="login-note">Your email helps us personalize your experience and sync your data across devices.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Permission Banner -->
+    <div class="notification-banner" id="notification-banner">
+        <div class="notification-content">
+            <div class="notification-text">
+                <i class="fas fa-bell"></i>
+                <span>Enable notifications for daily wellness reminders!</span>
+            </div>
+            <div class="notification-buttons">
+                <button class="notification-btn" onclick="requestNotificationPermission()">Enable</button>
+                <button class="close-notification" onclick="closeNotificationBanner()">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PWA Installation and App Logic
+        class VibeTrackerPWA {
+            constructor() {
+                this.data = this.loadData();
+                this.currentDate = this.getToday();
+                this.mindsetQuotes = [
+                    "Every small step towards wellness is a miracle in progress.",
+                    "Your body is a temple, treat it with love and respect.",
+                    "Wellness is not a destination, it's a way of life.",
+                    "Today's choices create tomorrow's miracles.",
+                    "Your health is your greatest wealth.",
+                    "Small consistent actions lead to big transformations.",
+                    "Listen to your body, it knows what it needs.",
+                    "Wellness is the complete integration of body, mind, and spirit.",
+                    "Every breath is a gift, every moment a chance to choose wellness.",
+                    "Your wellness journey is uniquely yours - embrace it."
+                ];
+                this.deferredPrompt = null;
+                this.achievements = {
+                    'first-day': { unlocked: false, condition: 'firstDay' },
+                    'week-streak': { unlocked: false, condition: 'weekStreak' },
+                    'perfect-day': { unlocked: false, condition: 'perfectDay' },
+                    'vibe-master': { unlocked: false, condition: 'vibeMaster' }
+                };
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.updateProgress();
+                this.loadTodayData();
+                this.checkLoginStatus();
+                this.registerServiceWorker();
+                this.setupPWAInstall();
+                this.setupDatePicker();
+                this.checkAchievements();
+                this.loadSuccessStories();
+                this.setupNotifications();
+            }
+
+            setupEventListeners() {
+                // Navigation
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        const tab = e.currentTarget.dataset.tab;
+                        this.switchTab(tab);
+                    });
+                });
+
+                // Check-in items
+                document.querySelectorAll('.checkin-item input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        this.updateCheckin(e.target);
+                        this.updateProgress();
+                    });
+                });
+            }
+
+            switchTab(tabName) {
+                // Update navigation
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(tabName).classList.add('active');
+            }
+
+            updateCheckin(checkbox) {
+                const trackType = checkbox.dataset.track;
+                const today = this.getToday();
+                
+                if (!this.data.daily[today]) {
+                    this.data.daily[today] = {};
+                }
+                
+                this.data.daily[today][trackType] = checkbox.checked;
+                this.saveData();
+            }
+
+            updateProgress() {
+                const today = this.getToday();
+                const todayData = this.data.daily[today] || {};
+                const totalItems = 4;
+                const completedItems = Object.values(todayData).filter(Boolean).length;
+                const percentage = Math.round((completedItems / totalItems) * 100);
+
+                // Update progress ring
+                const circle = document.getElementById('progress-circle');
+                const circumference = 2 * Math.PI * 80; // radius = 80
+                const offset = circumference - (percentage / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+
+                // Update percentage text
+                document.getElementById('progress-percentage').textContent = `${percentage}%`;
+            }
+
+            loadTodayData() {
+                const today = this.getToday();
+                const todayData = this.data.daily[today] || {};
+
+                // Load checkboxes
+                document.getElementById('vibe-taken').checked = todayData.vibe || false;
+                document.getElementById('water-8glasses').checked = todayData.water || false;
+                document.getElementById('exercise').checked = todayData.exercise || false;
+                document.getElementById('sleep-8hours').checked = todayData.sleep || false;
+            }
+
+            checkLoginStatus() {
+                const userEmail = localStorage.getItem('vibe-user-email');
+                if (!userEmail) {
+                    // Show login modal for new users - NO CLOSE BUTTON
+                    document.getElementById('login-modal').style.display = 'block';
+                }
+            }
+
+            handleLogin(email) {
+                // Store user email
+                localStorage.setItem('vibe-user-email', email);
+                
+                // Close login modal
+                document.getElementById('login-modal').style.display = 'none';
+                
+                // Show welcome message
+                alert(`Welcome, ${email.split('@')[0]}! Let's start your wellness journey.`);
+            }
+
+            getNewMindset() {
+                const randomQuote = this.mindsetQuotes[Math.floor(Math.random() * this.mindsetQuotes.length)];
+                document.getElementById('mindset-quote').textContent = `"${randomQuote}"`;
+            }
+
+            shareApp() {
+                const shareText = `🌟 Vibe Health Tracker - Free Wellness App 🌟
+
+Track your wellness journey with the Vibe Health Tracker app! 
+
+Features:
+✅ Daily wellness tracking
+✅ Progress monitoring  
+✅ Miracle mindset quotes
+✅ Achievement rewards
+✅ Wellness resources
+
+Free with every Vibe purchase!
+
+Get started: ${window.location.href}`;
+                
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Vibe Health Tracker - Free Wellness App',
+                        text: shareText,
+                        url: window.location.href
+                    });
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    navigator.clipboard.writeText(shareText).then(() => {
+                        alert('App information copied to clipboard! Share it with friends and family.');
+                    });
+                }
+            }
+
+            // PWA Installation Methods
+            registerServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    window.addEventListener('load', () => {
+                        navigator.serviceWorker.register('/sw.js')
+                            .then((registration) => {
+                                console.log('SW registered: ', registration);
+                            })
+                            .catch((registrationError) => {
+                                console.log('SW registration failed: ', registrationError);
+                            });
+                    });
+                }
+            }
+
+            setupPWAInstall() {
+                // Listen for the beforeinstallprompt event
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    // Prevent the mini-infobar from appearing on mobile
+                    e.preventDefault();
+                    // Stash the event so it can be triggered later
+                    this.deferredPrompt = e;
+                    // Show the install banner
+                    this.showInstallBanner();
+                });
+
+                // Listen for the appinstalled event
+                window.addEventListener('appinstalled', () => {
+                    console.log('PWA was installed');
+                    this.hideInstallBanner();
+                });
+
+                // Check if app is already installed
+                if (window.matchMedia('(display-mode: standalone)').matches) {
+                    console.log('App is already installed');
+                    this.hideInstallBanner();
+                }
+            }
+
+            showInstallBanner() {
+                const banner = document.getElementById('install-banner');
+                const nav = document.getElementById('app-nav');
+                banner.classList.add('show');
+                nav.classList.add('with-banner');
+            }
+
+            hideInstallBanner() {
+                const banner = document.getElementById('install-banner');
+                const nav = document.getElementById('app-nav');
+                banner.classList.remove('show');
+                nav.classList.remove('with-banner');
+            }
+
+            async installApp() {
+                if (this.deferredPrompt) {
+                    // Show the install prompt
+                    this.deferredPrompt.prompt();
+                    // Wait for the user to respond to the prompt
+                    const { outcome } = await this.deferredPrompt.userChoice;
+                    console.log(`User response to the install prompt: ${outcome}`);
+                    // Clear the deferredPrompt
+                    this.deferredPrompt = null;
+                    // Hide the install banner
+                    this.hideInstallBanner();
+                }
+            }
+
+            loadData() {
+                const saved = localStorage.getItem('vibe-tracker-data');
+                if (saved) {
+                    return JSON.parse(saved);
+                }
+                return {
+                    daily: {},
+                    settings: {
+                        dailyReminder: true,
+                        progressReminder: true,
+                        waterGoal: 8,
+                        sleepGoal: 8
+                    }
+                };
+            }
+
+            saveData() {
+                localStorage.setItem('vibe-tracker-data', JSON.stringify(this.data));
+            }
+
+            getToday() {
+                return this.formatDate(new Date());
+            }
+
+            formatDate(date) {
+                return date.toISOString().split('T')[0];
+            }
+
+            // Date Selection Methods
+            setupDatePicker() {
+                const datePicker = document.getElementById('date-picker');
+                datePicker.value = this.currentDate;
+                datePicker.max = this.getToday(); // Can't select future dates
+            }
+
+            changeDate() {
+                const datePicker = document.getElementById('date-picker');
+                this.currentDate = datePicker.value;
+                this.updateDateTitle();
+                this.loadTodayData();
+                this.updateProgress();
+            }
+
+            updateDateTitle() {
+                const dateTitle = document.getElementById('date-title');
+                if (this.currentDate === this.getToday()) {
+                    dateTitle.textContent = "Today's";
+                } else {
+                    const date = new Date(this.currentDate);
+                    const options = { weekday: 'long', month: 'long', day: 'numeric' };
+                    dateTitle.textContent = date.toLocaleDateString('en-US', options) + "'s";
+                }
+            }
+
+            // Achievement System
+            checkAchievements() {
+                this.checkFirstDay();
+                this.checkWeekStreak();
+                this.checkPerfectDay();
+                this.checkVibeMaster();
+                this.updateBadgeDisplay();
+            }
+
+            checkFirstDay() {
+                const days = Object.keys(this.data.daily);
+                if (days.length > 0) {
+                    this.achievements['first-day'].unlocked = true;
+                }
+            }
+
+            checkWeekStreak() {
+                const days = Object.keys(this.data.daily).sort();
+                let streak = 0;
+                let currentStreak = 0;
+                
+                for (let i = days.length - 1; i >= 0; i--) {
+                    const dayData = this.data.daily[days[i]];
+                    const hasVibe = dayData.vibe || false;
+                    if (hasVibe) {
+                        currentStreak++;
+                        streak = Math.max(streak, currentStreak);
+                    } else {
+                        currentStreak = 0;
+                    }
+                }
+                
+                if (streak >= 7) {
+                    this.achievements['week-streak'].unlocked = true;
+                }
+            }
+
+            checkPerfectDay() {
+                const todayData = this.data.daily[this.currentDate] || {};
+                const allComplete = todayData.vibe && todayData.water && todayData.exercise && todayData.sleep;
+                if (allComplete) {
+                    this.achievements['perfect-day'].unlocked = true;
+                }
+            }
+
+            checkVibeMaster() {
+                const days = Object.keys(this.data.daily);
+                let vibeDays = 0;
+                
+                days.forEach(day => {
+                    if (this.data.daily[day].vibe) {
+                        vibeDays++;
+                    }
+                });
+                
+                if (vibeDays >= 30) {
+                    this.achievements['vibe-master'].unlocked = true;
+                }
+            }
+
+            updateBadgeDisplay() {
+                Object.keys(this.achievements).forEach(badgeId => {
+                    const badge = document.getElementById(`badge-${badgeId}`);
+                    if (this.achievements[badgeId].unlocked) {
+                        badge.classList.add('unlocked');
+                    }
+                });
+            }
+
+            // Success Stories
+            loadSuccessStories() {
+                // In a real app, this would fetch from your backend
+                // For now, we'll use the static stories in HTML
+            }
+
+            // Progress Sharing
+            shareProgress() {
+                const todayData = this.data.daily[this.currentDate] || {};
+                const completed = Object.values(todayData).filter(Boolean).length;
+                const total = 4;
+                const percentage = Math.round((completed / total) * 100);
+                
+                const shareText = `🌟 I'm ${percentage}% complete with my wellness goals today! 
+
+✅ Vibe: ${todayData.vibe ? 'Done' : 'Pending'}
+💧 Water: ${todayData.water ? 'Done' : 'Pending'}
+🏃 Exercise: ${todayData.exercise ? 'Done' : 'Pending'}
+😴 Sleep: ${todayData.sleep ? 'Done' : 'Pending'}
+
+Track your wellness journey with Vibe Health Tracker! ${window.location.href}`;
+                
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'My Wellness Progress',
+                        text: shareText,
+                        url: window.location.href
+                    });
+                } else {
+                    navigator.clipboard.writeText(shareText).then(() => {
+                        alert('Progress copied to clipboard! Share it with friends and family.');
+                    });
+                }
+            }
+
+            // Notification System
+            setupNotifications() {
+                if ('Notification' in window) {
+                    if (Notification.permission === 'default') {
+                        setTimeout(() => {
+                            this.showNotificationBanner();
+                        }, 5000); // Show after 5 seconds
+                    }
+                }
+            }
+
+            showNotificationBanner() {
+                const banner = document.getElementById('notification-banner');
+                banner.classList.add('show');
+            }
+
+            hideNotificationBanner() {
+                const banner = document.getElementById('notification-banner');
+                banner.classList.remove('show');
+            }
+
+            async requestNotificationPermission() {
+                if ('Notification' in window) {
+                    const permission = await Notification.requestPermission();
+                    if (permission === 'granted') {
+                        this.hideNotificationBanner();
+                        this.scheduleDailyReminder();
+                        alert('Notifications enabled! You\'ll receive daily wellness reminders.');
+                    } else {
+                        alert('Notifications blocked. You can enable them later in your browser settings.');
+                    }
+                }
+            }
+
+            scheduleDailyReminder() {
+                // Schedule daily reminder at 9 AM
+                const now = new Date();
+                const reminderTime = new Date();
+                reminderTime.setHours(9, 0, 0, 0);
+                
+                if (reminderTime <= now) {
+                    reminderTime.setDate(reminderTime.getDate() + 1);
+                }
+                
+                const timeUntilReminder = reminderTime.getTime() - now.getTime();
+                
+                setTimeout(() => {
+                    this.sendDailyReminder();
+                    // Schedule next day's reminder
+                    this.scheduleDailyReminder();
+                }, timeUntilReminder);
+            }
+
+            sendDailyReminder() {
+                if (Notification.permission === 'granted') {
+                    new Notification('Vibe Health Tracker', {
+                        body: 'Time for your daily wellness check-in! Track your progress today.',
+                        icon: '/icon-192.png',
+                        badge: '/icon-192.png'
+                    });
+                }
+            }
+        }
+
+        // Global functions
+        function getNewMindset() {
+            app.getNewMindset();
+        }
+
+        function shareApp() {
+            app.shareApp();
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('user-email').value;
+            app.handleLogin(email);
+        }
+
+        function closeLoginModal() {
+            // Login modal cannot be closed without entering email
+            // This function is kept for compatibility but does nothing
+        }
+
+        function closeInstallBanner() {
+            app.hideInstallBanner();
+        }
+
+        function changeDate() {
+            app.changeDate();
+        }
+
+        function shareProgress() {
+            app.shareProgress();
+        }
+
+        function requestNotificationPermission() {
+            app.requestNotificationPermission();
+        }
+
+        function closeNotificationBanner() {
+            app.hideNotificationBanner();
+        }
+
+        // Initialize the app when the page loads
+        let app;
+        document.addEventListener('DOMContentLoaded', () => {
+            app = new VibeTrackerPWA();
+            
+            // Set up install button
+            document.getElementById('install-btn').addEventListener('click', () => {
+                app.installApp();
+            });
+        });
+
+        // Login modal cannot be closed by clicking outside
+        // Users must enter their email to proceed
+    </script>
+</body>
+</html>
