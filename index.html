@@ -1153,8 +1153,8 @@
             }
 
             loadTodayData() {
-                const today = this.getToday();
-                const todayData = this.data.daily[today] || {};
+    const today = this.currentDate;
+    const todayData = this.data.daily[today] || {};
 
                 // Load checkboxes
                 document.getElementById('vibe-taken').checked = todayData.vibe || false;
