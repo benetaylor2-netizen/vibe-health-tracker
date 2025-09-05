@@ -2,12 +2,12 @@
   "name": "Vibe Health Tracker",
   "short_name": "Vibe Tracker",
   "description": "Track your wellness journey with daily progress monitoring and miracle mindset quotes",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#667eea",
   "theme_color": "#667eea",
   "orientation": "portrait",
-  "scope": "/",
+  "scope": "./",
   "icons": [
     {
       "src": "icon-192.png",
@@ -26,4 +26,3 @@
   "lang": "en",
   "dir": "ltr"
 }
-
