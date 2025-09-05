@@ -754,6 +754,167 @@
             justify-content: center;
         }
 
+        /* Progress Page Styles */
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .day-progress {
+            background: #f8f9ff;
+            padding: 15px 10px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+        }
+
+        .day-progress.completed {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .day-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .day-percentage {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .streak-display {
+            text-align: center;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .streak-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .streak-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .category-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-item i {
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        /* Rewards Page Styles */
+        .points-display {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .points-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .points-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .achievement-progress {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        /* Settings Page Styles */
+        .settings-section {
+            margin-bottom: 30px;
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .settings-section h2 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .settings-section h2 i {
+            margin-right: 10px;
+            color: #667eea;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-item label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .setting-item span {
+            color: #666;
+        }
+
         @media (max-width: 768px) {
             .install-banner-content {
                 flex-direction: column;
@@ -793,124 +954,6 @@
                 grid-template-columns: 1fr;
             }
         }
-        /* Progress Page Styles */
-.week-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-    margin-bottom: 30px;
-}
-
-.day-progress {
-    background: #f8f9ff;
-    padding: 15px 10px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid #e0e0e0;
-}
-
-.day-progress.completed {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    border-color: #667eea;
-}
-
-.day-name {
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.day-percentage {
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
-.streak-display {
-    text-align: center;
-    background: linear-gradient(135deg, #FFD700, #FFA500);
-    color: white;
-    padding: 30px;
-    border-radius: 20px;
-    margin-bottom: 30px;
-}
-
-.streak-number {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.streak-label {
-    font-size: 1.1rem;
-    opacity: 0.9;
-}
-
-.category-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-}
-
-.stat-item {
-    background: #f8f9ff;
-    padding: 20px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.stat-item i {
-    font-size: 1.5rem;
-    color: #667eea;
-}
-
-/* Rewards Page Styles */
-.points-display {
-    text-align: center;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    padding: 30px;
-    border-radius: 20px;
-    margin-bottom: 30px;
-}
-
-.points-number {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.points-label {
-    font-size: 1.1rem;
-    opacity: 0.9;
-}
-
-.achievement-progress {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.progress-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.progress-bar {
-    flex: 1;
-    height: 20px;
-    background: #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    transition: width 0.3s ease;
-}
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -1067,15 +1110,10 @@
                 <section class="achievements">
                     <h2><i class="fas fa-trophy"></i> Your Achievements</h2>
                     <div class="badge-grid" id="badge-grid">
-                        <div class="badge" id="badge-first-day">
-                            <i class="fas fa-play"></i>
-                            <div class="badge-title">First Day</div>
-                            <div class="badge-description">Complete your first day</div>
-                        </div>
-                        <div class="badge" id="badge-week-streak">
+                        <div class="badge" id="badge-week-warrior">
                             <i class="fas fa-calendar-week"></i>
                             <div class="badge-title">Week Warrior</div>
-                            <div class="badge-description">7 days in a row</div>
+                            <div class="badge-description">Complete full weeks</div>
                         </div>
                         <div class="badge" id="badge-perfect-day">
                             <i class="fas fa-star"></i>
@@ -1100,79 +1138,79 @@
             </div>
         </div>
 
-        <!-- Other tabs would go here -->
+        <!-- Progress Tab -->
         <div class="tab-content" id="progress">
-    <div class="home-container">
-        <h1>Progress Tracking</h1>
-        
-        <!-- Weekly Overview -->
-        <div class="progress-section">
-            <h2><i class="fas fa-chart-line"></i> Weekly Overview</h2>
-            <div class="week-grid">
-                <div class="day-progress" id="day-0">
-                    <div class="day-name">Mon</div>
-                    <div class="day-percentage">0%</div>
+            <div class="home-container">
+                <h1>Progress Tracking</h1>
+                
+                <!-- Weekly Overview -->
+                <div class="progress-section">
+                    <h2><i class="fas fa-chart-line"></i> Weekly Overview</h2>
+                    <div class="week-grid">
+                        <div class="day-progress" id="day-0">
+                            <div class="day-name">Mon</div>
+                            <div class="day-percentage">0%</div>
+                        </div>
+                        <div class="day-progress" id="day-1">
+                            <div class="day-name">Tue</div>
+                            <div class="day-percentage">0%</div>
+                        </div>
+                        <div class="day-progress" id="day-2">
+                            <div class="day-name">Wed</div>
+                            <div class="day-percentage">0%</div>
+                        </div>
+                        <div class="day-progress" id="day-3">
+                            <div class="day-name">Thu</div>
+                            <div class="day-percentage">0%</div>
+                        </div>
+                        <div class="day-progress" id="day-4">
+                            <div class="day-name">Fri</div>
+                            <div class="day-percentage">0%</div>
+                        </div>
+                        <div class="day-progress" id="day-5">
+                            <div class="day-name">Sat</div>
+                            <div class="day-percentage">0%</div>
+                        </div>
+                        <div class="day-progress" id="day-6">
+                            <div class="day-name">Sun</div>
+                            <div class="day-percentage">0%</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="day-progress" id="day-1">
-                    <div class="day-name">Tue</div>
-                    <div class="day-percentage">0%</div>
-                </div>
-                <div class="day-progress" id="day-2">
-                    <div class="day-name">Wed</div>
-                    <div class="day-percentage">0%</div>
-                </div>
-                <div class="day-progress" id="day-3">
-                    <div class="day-name">Thu</div>
-                    <div class="day-percentage">0%</div>
-                </div>
-                <div class="day-progress" id="day-4">
-                    <div class="day-name">Fri</div>
-                    <div class="day-percentage">0%</div>
-                </div>
-                <div class="day-progress" id="day-5">
-                    <div class="day-name">Sat</div>
-                    <div class="day-percentage">0%</div>
-                </div>
-                <div class="day-progress" id="day-6">
-                    <div class="day-name">Sun</div>
-                    <div class="day-percentage">0%</div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Streak Counter -->
-        <div class="progress-section">
-            <h2><i class="fas fa-fire"></i> Current Streak</h2>
-            <div class="streak-display">
-                <div class="streak-number" id="streak-count">0</div>
-                <div class="streak-label">Days in a row</div>
-            </div>
-        </div>
+                <!-- Streak Counter -->
+                <div class="progress-section">
+                    <h2><i class="fas fa-fire"></i> Current Streak</h2>
+                    <div class="streak-display">
+                        <div class="streak-number" id="streak-count">0</div>
+                        <div class="streak-label">Days in a row</div>
+                    </div>
+                </div>
 
-        <!-- Category Breakdown -->
-        <div class="progress-section">
-            <h2><i class="fas fa-chart-pie"></i> Category Breakdown</h2>
-            <div class="category-stats">
-                <div class="stat-item">
-                    <i class="fas fa-pills"></i>
-                    <span>Vibe: <span id="vibe-count">0</span> days</span>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-tint"></i>
-                    <span>Water: <span id="water-count">0</span> days</span>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-running"></i>
-                    <span>Exercise: <span id="exercise-count">0</span> days</span>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-moon"></i>
-                    <span>Sleep: <span id="sleep-count">0</span> days</span>
+                <!-- Category Breakdown -->
+                <div class="progress-section">
+                    <h2><i class="fas fa-chart-pie"></i> Category Breakdown</h2>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-pills"></i>
+                            <span>Vibe: <span id="vibe-count">0</span> days</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-tint"></i>
+                            <span>Water: <span id="water-count">0</span> days</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-running"></i>
+                            <span>Exercise: <span id="exercise-count">0</span> days</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-moon"></i>
+                            <span>Sleep: <span id="sleep-count">0</span> days</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
         <div class="tab-content" id="resources">
             <div class="home-container">
@@ -1182,63 +1220,116 @@
         </div>
 
         <div class="tab-content" id="rewards">
-    <div class="home-container">
-        <h1>Your Rewards</h1>
-        
-        <!-- Points System -->
-        <div class="rewards-section">
-            <h2><i class="fas fa-star"></i> Your Points</h2>
-            <div class="points-display">
-                <div class="points-number" id="total-points">0</div>
-                <div class="points-label">Total Points</div>
+            <div class="home-container">
+                <h1>Your Rewards</h1>
+                
+                <!-- Points System -->
+                <div class="rewards-section">
+                    <h2><i class="fas fa-star"></i> Your Points</h2>
+                    <div class="points-display">
+                        <div class="points-number" id="total-points">0</div>
+                        <div class="points-label">Total Points</div>
+                    </div>
+                </div>
+
+                <!-- Achievement Progress -->
+                <div class="rewards-section">
+                    <h2><i class="fas fa-trophy"></i> Achievement Progress</h2>
+                    <div class="achievement-progress">
+                        <div class="progress-item">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="week-warrior-progress" style="width: 0%"></div>
+                            </div>
+                            <span id="week-warrior-text">Week Warrior (0/52)</span>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="perfect-day-progress" style="width: 0%"></div>
+                            </div>
+                            <span id="perfect-day-text">Perfect Day (0/1)</span>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="vibe-master-progress" style="width: 0%"></div>
+                            </div>
+                            <span id="vibe-master-text">Vibe Master (0/30)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Share App -->
+                <div class="rewards-section">
+                    <button class="mindset-button" onclick="shareApp()">
+                        <i class="fas fa-share"></i>
+                        Share App
+                    </button>
+                </div>
             </div>
         </div>
-
-        <!-- Achievement Progress -->
-        <div class="rewards-section">
-            <h2><i class="fas fa-trophy"></i> Achievement Progress</h2>
-            <div class="achievement-progress">
-                <div class="progress-item">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="first-day-progress" style="width: 0%"></div>
-                    </div>
-                    <span>First Day (1/1)</span>
-                </div>
-                <div class="progress-item">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="week-streak-progress" style="width: 0%"></div>
-                    </div>
-                    <span>Week Warrior (0/7)</span>
-                </div>
-                <div class="progress-item">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="perfect-day-progress" style="width: 0%"></div>
-                    </div>
-                    <span>Perfect Day (0/1)</span>
-                </div>
-                <div class="progress-item">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="vibe-master-progress" style="width: 0%"></div>
-                    </div>
-                    <span>Vibe Master (0/30)</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Share App -->
-        <div class="rewards-section">
-            <button class="mindset-button" onclick="shareApp()">
-                <i class="fas fa-share"></i>
-                Share App
-            </button>
-        </div>
-    </div>
-</div>
 
         <div class="tab-content" id="settings">
             <div class="home-container">
                 <h1>Settings</h1>
-                <p>Manage your preferences and data here.</p>
+                
+                <!-- User Info -->
+                <div class="settings-section">
+                    <h2><i class="fas fa-user"></i> Account Information</h2>
+                    <div class="setting-item">
+                        <label>Email:</label>
+                        <span id="user-email-display">Not logged in</span>
+                    </div>
+                    <div class="setting-item">
+                        <label>Member Since:</label>
+                        <span id="member-since">Today</span>
+                    </div>
+                </div>
+
+                <!-- Data Management -->
+                <div class="settings-section">
+                    <h2><i class="fas fa-database"></i> Data Management</h2>
+                    <div class="setting-item">
+                        <label>Total Days Tracked:</label>
+                        <span id="total-days">0</span>
+                    </div>
+                    <div class="setting-item">
+                        <label>Data Storage:</label>
+                        <span>Local (Private)</span>
+                    </div>
+                    <button class="mindset-button" onclick="exportData()">
+                        <i class="fas fa-download"></i>
+                        Export My Data
+                    </button>
+                </div>
+
+                <!-- Notifications -->
+                <div class="settings-section">
+                    <h2><i class="fas fa-bell"></i> Notifications</h2>
+                    <div class="setting-item">
+                        <label>Daily Reminders:</label>
+                        <span id="notification-status">Disabled</span>
+                    </div>
+                    <button class="mindset-button" onclick="toggleNotifications()">
+                        <i class="fas fa-bell"></i>
+                        Toggle Notifications
+                    </button>
+                </div>
+
+                <!-- App Info -->
+                <div class="settings-section">
+                    <h2><i class="fas fa-info-circle"></i> App Information</h2>
+                    <div class="setting-item">
+                        <label>Version:</label>
+                        <span>1.0.0</span>
+                    </div>
+                    <div class="setting-item">
+                        <label>Platform:</label>
+                        <span>Progressive Web App</span>
+                    </div>
+                    <button class="mindset-button" onclick="shareApp()">
+                        <i class="fas fa-share"></i>
+                        Share App
+                    </button>
+                </div>
             </div>
         </div>
     </main>
@@ -1297,8 +1388,7 @@
                 ];
                 this.deferredPrompt = null;
                 this.achievements = {
-                    'first-day': { unlocked: false, condition: 'firstDay' },
-                    'week-streak': { unlocked: false, condition: 'weekStreak' },
+                    'week-warrior': { unlocked: false, condition: 'weekWarrior' },
                     'perfect-day': { unlocked: false, condition: 'perfectDay' },
                     'vibe-master': { unlocked: false, condition: 'vibeMaster' }
                 };
@@ -1348,11 +1438,20 @@
                     content.classList.remove('active');
                 });
                 document.getElementById(tabName).classList.add('active');
+
+                // Update page-specific data
+                if (tabName === 'progress') {
+                    this.updateProgressPage();
+                } else if (tabName === 'rewards') {
+                    this.updateRewardsPage();
+                } else if (tabName === 'settings') {
+                    this.updateSettingsPage();
+                }
             }
 
             updateCheckin(checkbox) {
                 const trackType = checkbox.dataset.track;
-                const today = this.getToday();
+                const today = this.currentDate;
                 
                 if (!this.data.daily[today]) {
                     this.data.daily[today] = {};
@@ -1380,8 +1479,8 @@
             }
 
             loadTodayData() {
-    const today = this.currentDate;
-    const todayData = this.data.daily[today] || {};
+                const today = this.currentDate;
+                const todayData = this.data.daily[today] || {};
 
                 // Load checkboxes
                 document.getElementById('vibe-taken').checked = todayData.vibe || false;
@@ -1567,38 +1666,16 @@ Get started: ${window.location.href}`;
 
             // Achievement System
             checkAchievements() {
-                this.checkFirstDay();
-                this.checkWeekStreak();
+                this.checkWeekWarrior();
                 this.checkPerfectDay();
                 this.checkVibeMaster();
                 this.updateBadgeDisplay();
             }
 
-            checkFirstDay() {
-                const days = Object.keys(this.data.daily);
-                if (days.length > 0) {
-                    this.achievements['first-day'].unlocked = true;
-                }
-            }
-
-            checkWeekStreak() {
-                const days = Object.keys(this.data.daily).sort();
-                let streak = 0;
-                let currentStreak = 0;
-                
-                for (let i = days.length - 1; i >= 0; i--) {
-                    const dayData = this.data.daily[days[i]];
-                    const hasVibe = dayData.vibe || false;
-                    if (hasVibe) {
-                        currentStreak++;
-                        streak = Math.max(streak, currentStreak);
-                    } else {
-                        currentStreak = 0;
-                    }
-                }
-                
-                if (streak >= 7) {
-                    this.achievements['week-streak'].unlocked = true;
+            checkWeekWarrior() {
+                const fullWeeksCompleted = this.calculateFullWeeksCompleted();
+                if (fullWeeksCompleted >= 1) {
+                    this.achievements['week-warrior'].unlocked = true;
                 }
             }
 
@@ -1628,7 +1705,7 @@ Get started: ${window.location.href}`;
             updateBadgeDisplay() {
                 Object.keys(this.achievements).forEach(badgeId => {
                     const badge = document.getElementById(`badge-${badgeId}`);
-                    if (this.achievements[badgeId].unlocked) {
+                    if (badge && this.achievements[badgeId].unlocked) {
                         badge.classList.add('unlocked');
                     }
                 });
@@ -1731,6 +1808,197 @@ Track your wellness journey with Vibe Health Tracker! ${window.location.href}`;
                     });
                 }
             }
+
+            // Update progress page data
+            updateProgressPage() {
+                this.updateWeeklyOverview();
+                this.updateStreakCount();
+                this.updateCategoryStats();
+            }
+
+            // Update weekly overview
+            updateWeeklyOverview() {
+                const today = new Date();
+                const startOfWeek = new Date(today);
+                startOfWeek.setDate(today.getDate() - today.getDay() + 1); // Monday
+                
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(startOfWeek);
+                    date.setDate(startOfWeek.getDate() + i);
+                    const dateStr = this.formatDate(date);
+                    const dayData = this.data.daily[dateStr] || {};
+                    
+                    const completed = Object.values(dayData).filter(Boolean).length;
+                    const percentage = Math.round((completed / 4) * 100);
+                    
+                    const dayElement = document.getElementById(`day-${i}`);
+                    if (dayElement) {
+                        dayElement.querySelector('.day-percentage').textContent = `${percentage}%`;
+                        if (completed > 0) {
+                            dayElement.classList.add('completed');
+                        }
+                    }
+                }
+            }
+
+            // Update streak count
+            updateStreakCount() {
+                const days = Object.keys(this.data.daily).sort();
+                let currentStreak = 0;
+                
+                // Get today's date
+                const today = new Date();
+                const todayStr = this.formatDate(today);
+                
+                // Start from today and work backwards
+                for (let i = 0; i < 365; i++) { // Check up to 1 year back
+                    const checkDate = new Date(today);
+                    checkDate.setDate(today.getDate() - i);
+                    const dateStr = this.formatDate(checkDate);
+                    
+                    const dayData = this.data.daily[dateStr];
+                    if (dayData && dayData.vibe) {
+                        currentStreak++;
+                    } else {
+                        // Stop counting when we hit a day without Vibe
+                        break;
+                    }
+                }
+                
+                const streakElement = document.getElementById('streak-count');
+                if (streakElement) {
+                    streakElement.textContent = currentStreak;
+                }
+            }
+
+            // Update category stats
+            updateCategoryStats() {
+                const days = Object.keys(this.data.daily);
+                const stats = {
+                    vibe: 0,
+                    water: 0,
+                    exercise: 0,
+                    sleep: 0
+                };
+                
+                days.forEach(day => {
+                    const dayData = this.data.daily[day];
+                    if (dayData.vibe) stats.vibe++;
+                    if (dayData.water) stats.water++;
+                    if (dayData.exercise) stats.exercise++;
+                    if (dayData.sleep) stats.sleep++;
+                });
+                
+                document.getElementById('vibe-count').textContent = stats.vibe;
+                document.getElementById('water-count').textContent = stats.water;
+                document.getElementById('exercise-count').textContent = stats.exercise;
+                document.getElementById('sleep-count').textContent = stats.sleep;
+            }
+
+            // Update rewards page
+            updateRewardsPage() {
+                this.updatePoints();
+                this.updateAchievementProgress();
+            }
+
+            // Update points
+            updatePoints() {
+                const days = Object.keys(this.data.daily);
+                let points = 0;
+                
+                days.forEach(day => {
+                    const dayData = this.data.daily[day];
+                    const completed = Object.values(dayData).filter(Boolean).length;
+                    points += completed * 10; // 10 points per item
+                });
+                
+                const pointsElement = document.getElementById('total-points');
+                if (pointsElement) {
+                    pointsElement.textContent = points;
+                }
+            }
+
+            // Update achievement progress
+            updateAchievementProgress() {
+                const days = Object.keys(this.data.daily);
+                let vibeDays = 0;
+                let perfectDays = 0;
+                
+                days.forEach(day => {
+                    const dayData = this.data.daily[day];
+                    if (dayData.vibe) vibeDays++;
+                    if (dayData.vibe && dayData.water && dayData.exercise && dayData.sleep) {
+                        perfectDays++;
+                    }
+                });
+                
+                // Calculate full weeks completed throughout the year
+                const fullWeeksCompleted = this.calculateFullWeeksCompleted();
+                
+                // Update progress bars and text
+                const weekWarriorProgress = Math.min((fullWeeksCompleted / 52) * 100, 100);
+                const perfectDayProgress = perfectDays > 0 ? 100 : 0;
+                const vibeMasterProgress = Math.min((vibeDays / 30) * 100, 100);
+                
+                document.getElementById('week-warrior-progress').style.width = `${weekWarriorProgress}%`;
+                document.getElementById('perfect-day-progress').style.width = `${perfectDayProgress}%`;
+                document.getElementById('vibe-master-progress').style.width = `${vibeMasterProgress}%`;
+                
+                // Update text labels
+                document.getElementById('week-warrior-text').textContent = `Week Warrior (${fullWeeksCompleted}/52)`;
+                document.getElementById('perfect-day-text').textContent = `Perfect Day (${perfectDays}/1)`;
+                document.getElementById('vibe-master-text').textContent = `Vibe Master (${vibeDays}/30)`;
+            }
+
+            // Calculate full weeks completed throughout the year
+            calculateFullWeeksCompleted() {
+                const days = Object.keys(this.data.daily);
+                let fullWeeks = 0;
+                
+                // Get current year
+                const currentYear = new Date().getFullYear();
+                
+                // Check each week of the year
+                for (let week = 0; week < 52; week++) {
+                    let weekStart = new Date(currentYear, 0, 1); // January 1st
+                    weekStart.setDate(weekStart.getDate() + (week * 7));
+                    
+                    let weekComplete = true;
+                    
+                    // Check all 7 days in this week
+                    for (let day = 0; day < 7; day++) {
+                        const checkDate = new Date(weekStart);
+                        checkDate.setDate(weekStart.getDate() + day);
+                        const dateStr = this.formatDate(checkDate);
+                        
+                        const dayData = this.data.daily[dateStr];
+                        if (!dayData || !dayData.vibe) {
+                            weekComplete = false;
+                            break;
+                        }
+                    }
+                    
+                    if (weekComplete) {
+                        fullWeeks++;
+                    }
+                }
+                
+                return fullWeeks;
+            }
+
+            // Update settings page
+            updateSettingsPage() {
+                const userEmail = localStorage.getItem('vibe-user-email');
+                const days = Object.keys(this.data.daily);
+                
+                // Update user info
+                document.getElementById('user-email-display').textContent = userEmail || 'Not logged in';
+                document.getElementById('total-days').textContent = days.length;
+                
+                // Update notification status
+                const notificationStatus = Notification.permission === 'granted' ? 'Enabled' : 'Disabled';
+                document.getElementById('notification-status').textContent = notificationStatus;
+            }
         }
 
         // Global functions
@@ -1772,128 +2040,38 @@ Track your wellness journey with Vibe Health Tracker! ${window.location.href}`;
         function closeNotificationBanner() {
             app.hideNotificationBanner();
         }
-        // Update progress page data
-updateProgressPage() {
-    this.updateWeeklyOverview();
-    this.updateStreakCount();
-    this.updateCategoryStats();
-}
 
-// Update weekly overview
-updateWeeklyOverview() {
-    const today = new Date();
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay() + 1); // Monday
-    
-    for (let i = 0; i < 7; i++) {
-        const date = new Date(startOfWeek);
-        date.setDate(startOfWeek.getDate() + i);
-        const dateStr = this.formatDate(date);
-        const dayData = this.data.daily[dateStr] || {};
-        
-        const completed = Object.values(dayData).filter(Boolean).length;
-        const percentage = Math.round((completed / 4) * 100);
-        
-        const dayElement = document.getElementById(`day-${i}`);
-        if (dayElement) {
-            dayElement.querySelector('.day-percentage').textContent = `${percentage}%`;
-            if (completed > 0) {
-                dayElement.classList.add('completed');
+        // Update progress page data
+        function updateProgressPage() {
+            app.updateProgressPage();
+        }
+
+        // Update rewards page data
+        function updateRewardsPage() {
+            app.updateRewardsPage();
+        }
+
+        // Settings page functions
+        function exportData() {
+            const data = app.data;
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'vibe-tracker-data.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function toggleNotifications() {
+            if (Notification.permission === 'granted') {
+                alert('Notifications are already enabled!');
+            } else {
+                app.requestNotificationPermission();
             }
         }
-    }
-}
 
-// Update streak count
-updateStreakCount() {
-    const days = Object.keys(this.data.daily).sort();
-    let streak = 0;
-    let currentStreak = 0;
-    
-    for (let i = days.length - 1; i >= 0; i--) {
-        const dayData = this.data.daily[days[i]];
-        const hasVibe = dayData.vibe || false;
-        if (hasVibe) {
-            currentStreak++;
-            streak = Math.max(streak, currentStreak);
-        } else {
-            currentStreak = 0;
-        }
-    }
-    
-    const streakElement = document.getElementById('streak-count');
-    if (streakElement) {
-        streakElement.textContent = streak;
-    }
-}
-
-// Update category stats
-updateCategoryStats() {
-    const days = Object.keys(this.data.daily);
-    const stats = {
-        vibe: 0,
-        water: 0,
-        exercise: 0,
-        sleep: 0
-    };
-    
-    days.forEach(day => {
-        const dayData = this.data.daily[day];
-        if (dayData.vibe) stats.vibe++;
-        if (dayData.water) stats.water++;
-        if (dayData.exercise) stats.exercise++;
-        if (dayData.sleep) stats.sleep++;
-    });
-    
-    document.getElementById('vibe-count').textContent = stats.vibe;
-    document.getElementById('water-count').textContent = stats.water;
-    document.getElementById('exercise-count').textContent = stats.exercise;
-    document.getElementById('sleep-count').textContent = stats.sleep;
-}
-
-// Update rewards page
-updateRewardsPage() {
-    this.updatePoints();
-    this.updateAchievementProgress();
-}
-
-// Update points
-updatePoints() {
-    const days = Object.keys(this.data.daily);
-    let points = 0;
-    
-    days.forEach(day => {
-        const dayData = this.data.daily[day];
-        const completed = Object.values(dayData).filter(Boolean).length;
-        points += completed * 10; // 10 points per item
-    });
-    
-    const pointsElement = document.getElementById('total-points');
-    if (pointsElement) {
-        pointsElement.textContent = points;
-    }
-}
-
-// Update achievement progress
-updateAchievementProgress() {
-    const days = Object.keys(this.data.daily);
-    let vibeDays = 0;
-    let perfectDays = 0;
-    
-    days.forEach(day => {
-        const dayData = this.data.daily[day];
-        if (dayData.vibe) vibeDays++;
-        if (dayData.vibe && dayData.water && dayData.exercise && dayData.sleep) {
-            perfectDays++;
-        }
-    });
-    
-    // Update progress bars
-    document.getElementById('first-day-progress').style.width = days.length > 0 ? '100%' : '0%';
-    document.getElementById('week-streak-progress').style.width = `${Math.min((vibeDays / 7) * 100, 100)}%`;
-    document.getElementById('perfect-day-progress').style.width = perfectDays > 0 ? '100%' : '0%';
-    document.getElementById('vibe-master-progress').style.width = `${Math.min((vibeDays / 30) * 100, 100)}%`;
-}
         // Initialize the app when the page loads
         let app;
         document.addEventListener('DOMContentLoaded', () => {
