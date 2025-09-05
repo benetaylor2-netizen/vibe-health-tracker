@@ -5,8 +5,433 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vibe Health Tracker - Track Your Wellness, Build Your Miracle Mindset</title>
     <meta name="description" content="Transform your daily wellness routine with the Vibe Health Tracker app. Track energy, mood, sleep, and unlock exclusive wellness resources. Free with every Vibe purchase!">
-    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #4CAF50;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8fffe 0%, #e8f5e8 100%);
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .cta-note {
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* App Mockup */
+        .app-mockup {
+            position: relative;
+            width: 300px;
+            height: 600px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 40px;
+            padding: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .app-mockup:hover {
+            transform: perspective(1000px) rotateY(-10deg) rotateX(2deg);
+        }
+
+        .phone-frame {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-screen {
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .app-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .app-status {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .progress-ring {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-ring svg {
+            width: 120px;
+            height: 120px;
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.2);
+            stroke-width: 6;
+        }
+
+        .progress-ring-circle {
+            fill: none;
+            stroke: #FFD700;
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 314;
+            stroke-dashoffset: 157;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-percentage {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FFD700;
+        }
+
+        .progress-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .track-items {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .track-item.completed {
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .track-item i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .mindset-quote {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            font-style: italic;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #1a1a1a;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background: #f8f9ff;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8fffe 0%, #e8f5e8 100%);
+        }
+
+        .benefits-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: #4CAF50;
+        }
+
+        .benefit-text {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button.secondary {
+            background: white;
+            color: #4CAF50;
+        }
+
+        .cta-button.secondary:hover {
+            background: #f0f0f0;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .app-mockup {
+                width: 250px;
+                height: 500px;
+                transform: none;
+            }
+
+            .benefits-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Hero Section -->
@@ -33,7 +458,7 @@
                     Track your energy, mood, sleep, and unlock the life you've always dreamed of.
                 </p>
                 <div class="hero-cta">
-                    <button class="cta-button primary" onclick="scrollToDownload()">
+                    <button class="cta-button primary" onclick="window.location.href='index.html'">
                         🚀 Get Your Free App Access
                     </button>
                     <p class="cta-note">Normally $29 - FREE with Vibe!</p>
@@ -48,18 +473,35 @@
                                 <div class="app-status">Today's Progress</div>
                             </div>
                             <div class="progress-ring">
-                                <svg width="120" height="120" viewBox="0 0 120 120">
-                                    <circle cx="60" cy="60" r="50" fill="none" stroke="#e0e0e0" stroke-width="8"/>
-                                    <circle cx="60" cy="60" r="50" fill="none" stroke="#4CAF50" stroke-width="8" 
-                                            stroke-dasharray="314" stroke-dashoffset="78.5" transform="rotate(-90 60 60)"/>
+                                <svg>
+                                    <circle class="progress-ring-circle-bg" cx="60" cy="60" r="50"></circle>
+                                    <circle class="progress-ring-circle" cx="60" cy="60" r="50"></circle>
                                 </svg>
-                                <div class="progress-text">75%</div>
+                                <div class="progress-text">
+                                    <span class="progress-percentage">75%</span>
+                                    <span class="progress-label">Complete</span>
+                                </div>
                             </div>
-                            <div class="tracking-items">
-                                <div class="track-item completed">✅ Vibe</div>
-                                <div class="track-item completed">💧 Water</div>
-                                <div class="track-item">🏃 Exercise</div>
-                                <div class="track-item">😴 Sleep</div>
+                            <div class="track-items">
+                                <div class="track-item completed">
+                                    <i class="fas fa-pills"></i>
+                                    <span>Vibe</span>
+                                </div>
+                                <div class="track-item completed">
+                                    <i class="fas fa-tint"></i>
+                                    <span>Water</span>
+                                </div>
+                                <div class="track-item">
+                                    <i class="fas fa-running"></i>
+                                    <span>Exercise</span>
+                                </div>
+                                <div class="track-item">
+                                    <i class="fas fa-moon"></i>
+                                    <span>Sleep</span>
+                                </div>
+                            </div>
+                            <div class="mindset-quote">
+                                "Every small step towards wellness is a miracle in progress."
                             </div>
                         </div>
                     </div>
@@ -68,96 +510,96 @@
         </div>
     </header>
 
-    <!-- Social Proof Section -->
-    <section class="social-proof">
-        <div class="container">
-            <div class="proof-stats">
-                <div class="stat">
-                    <div class="stat-number">10,000+</div>
-                    <div class="stat-label">Active Users</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">94%</div>
-                    <div class="stat-label">Success Rate</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">4.9★</div>
-                    <div class="stat-label">App Rating</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Features Section -->
-    <section id="features" class="features">
+    <section class="features" id="features">
         <div class="container">
-            <h2 class="section-title">Why Vibe Health Tracker Changes Everything</h2>
+            <h2 class="section-title">Why Choose Vibe Health Tracker?</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Daily Miracle Mindset</h3>
-                    <p>Start each day with powerful affirmations and scripture that transform your thinking and unlock your potential.</p>
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Easy Daily Tracking</h3>
+                    <p class="feature-description">Simple check-in system to track your wellness habits. Just tap to log your progress each day.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📊</div>
-                    <h3>Smart Progress Tracking</h3>
-                    <p>See your wellness journey unfold with beautiful charts and insights that reveal patterns you never noticed.</p>
+                    <h3 class="feature-title">Progress Visualization</h3>
+                    <p class="feature-description">Beautiful charts and progress rings show your improvement over time. Stay motivated with visual feedback.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔔</div>
-                    <h3>Gentle Reminders</h3>
-                    <p>Never miss your Vibe again with customizable notifications that support your wellness routine, not interrupt it.</p>
+                    <div class="feature-icon">🏆</div>
+                    <h3 class="feature-title">Achievement System</h3>
+                    <p class="feature-description">Unlock badges and rewards as you build healthy habits. Celebrate your wellness journey milestones.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">💎</div>
-                    <h3>Exclusive Resources</h3>
-                    <p>Access premium wellness guides, recipes, and Miracle Mindset coaching that's only available to Vibe customers.</p>
+                    <div class="feature-icon">💡</div>
+                    <h3 class="feature-title">Miracle Mindset</h3>
+                    <p class="feature-description">Daily inspirational quotes and mindset tips to keep you focused on your wellness goals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Private & Secure</h3>
+                    <p class="feature-description">Your data stays on your device. No cloud storage, no data sharing - complete privacy guaranteed.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Works Offline</h3>
+                    <p class="feature-description">No internet required. Track your wellness anywhere, anytime. Perfect for busy lifestyles.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Benefits Section -->
-    <section id="benefits" class="benefits">
-        <div class="container">
-            <h2 class="section-title">The Life-Changing Results You'll Experience</h2>
-            <div class="benefits-content">
-                <div class="benefits-text">
-                    <div class="benefit-item">
-                        <div class="benefit-icon">⚡</div>
-                        <div class="benefit-content">
-                            <h3>Unstoppable Energy</h3>
-                            <p>Track your daily energy levels and discover the perfect routine that keeps you feeling unstoppable all day long.</p>
-                        </div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="benefit-icon">😌</div>
-                        <div class="benefit-content">
-                            <h3>Unshakeable Peace</h3>
-                            <p>Monitor your mood patterns and build emotional resilience that helps you stay centered no matter what life throws at you.</p>
-                        </div>
-                    </div>
-                    <div class="benefit-item">
-                        <div class="benefit-icon">🌙</div>
-                        <div class="benefit-content">
-                            <h3>Deep, Restorative Sleep</h3>
-                            <p>Optimize your sleep habits and wake up feeling refreshed, ready to conquer your biggest dreams.</p>
-                        </div>
-                    </div>
+    <section class="benefits" id="benefits">
+        <div class="benefits-content">
+            <div>
+                <h2 class="section-title">Transform Your Life Today</h2>
+                <div class="benefit-item">
+                    <div class="benefit-icon">✅</div>
+                    <div class="benefit-text">Build consistent wellness habits that actually stick</div>
                 </div>
-                <div class="benefits-visual">
-                    <div class="chart-mockup">
-                        <div class="chart-header">Your Wellness Journey</div>
-                        <div class="chart-container">
-                            <div class="chart-line energy"></div>
-                            <div class="chart-line mood"></div>
-                            <div class="chart-line sleep"></div>
-                        </div>
-                        <div class="chart-labels">
-                            <span>Week 1</span>
-                            <span>Week 2</span>
-                            <span>Week 3</span>
-                            <span>Week 4</span>
+                <div class="benefit-item">
+                    <div class="benefit-icon">✅</div>
+                    <div class="benefit-text">Track your energy, mood, and sleep patterns</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">✅</div>
+                    <div class="benefit-text">Get daily motivation with miracle mindset quotes</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">✅</div>
+                    <div class="benefit-text">Celebrate achievements and stay motivated</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">✅</div>
+                    <div class="benefit-text">Join thousands of Vibe users on their wellness journey</div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="app-mockup">
+                    <div class="phone-frame">
+                        <div class="phone-screen">
+                            <div class="app-header">
+                                <div class="app-title">Vibe Tracker</div>
+                                <div class="app-status">Your Achievements</div>
+                            </div>
+                            <div class="track-items">
+                                <div class="track-item completed">
+                                    <i class="fas fa-trophy"></i>
+                                    <span>Week Warrior</span>
+                                </div>
+                                <div class="track-item completed">
+                                    <i class="fas fa-star"></i>
+                                    <span>Perfect Day</span>
+                                </div>
+                                <div class="track-item">
+                                    <i class="fas fa-pills"></i>
+                                    <span>Vibe Master</span>
+                                </div>
+                            </div>
+                            <div class="mindset-quote">
+                                "Your wellness journey is uniquely yours - embrace it."
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -166,57 +608,61 @@
     </section>
 
     <!-- CTA Section -->
-    <section id="download" class="cta-section">
+    <section class="cta-section" id="download">
         <div class="container">
-            <div class="cta-content">
-                <h2>Ready to Transform Your Life?</h2>
-                <p class="cta-description">
-                    Join thousands of others who've already unlocked their miracle mindset with Vibe Health Tracker. 
-                    Your journey to extraordinary wellness starts now.
-                </p>
-                <div class="cta-buttons">
-                    <button class="cta-button primary large" onclick="downloadApp()">
-                        🎁 Get Free App Access
-                    </button>
-                    <button class="cta-button secondary large" onclick="learnMore()">
-                        📱 Learn More About Vibe
-                    </button>
-                </div>
-                <div class="guarantee">
-                    <div class="guarantee-icon">✅</div>
-                    <p>100% Free with every Vibe purchase • No hidden fees • Instant access</p>
-                </div>
-            </div>
+            <h2 class="cta-title">Ready to Transform Your Wellness?</h2>
+            <p class="cta-subtitle">Get your free Vibe Health Tracker app today and start building the life you've always dreamed of.</p>
+            <button class="cta-button secondary" onclick="window.location.href='index.html'">
+                🚀 Start Your Wellness Journey
+            </button>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Vibe Health Tracker</h4>
-                    <p>Track your wellness. Build your miracle mindset.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <a href="#features">Features</a>
-                    <a href="#benefits">Benefits</a>
-                    <a href="#download">Download</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <a href="#">Help Center</a>
-                    <a href="#">Contact Us</a>
-                    <a href="#">Privacy Policy</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Vibe Health Tracker. All rights reserved.</p>
-            </div>
+            <p>&copy; 2024 Vibe Health Tracker. Free with every Vibe purchase.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background change on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Add some animation to the app mockup
+        const appMockup = document.querySelector('.app-mockup');
+        if (appMockup) {
+            appMockup.addEventListener('mouseenter', function() {
+                this.style.transform = 'perspective(1000px) rotateY(-5deg) rotateX(0deg) scale(1.05)';
+            });
+            
+            appMockup.addEventListener('mouseleave', function() {
+                this.style.transform = 'perspective(1000px) rotateY(-15deg) rotateX(5deg) scale(1)';
+            });
+        }
+    </script>
 </body>
 </html>
